@@ -46,17 +46,17 @@ DiscordScript is a custom scripting language designed specifically for creating 
 
 **Linux / macOS:**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/foksiny/discordscript/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/foksiny/discordscript/stable/scripts/install.sh | bash
 ```
 
 **Windows (PowerShell):**
 ```powershell
-powershell -c "irm https://raw.githubusercontent.com/foksiny/discordscript/main/scripts/install.ps1 | iex"
+powershell -c "irm https://raw.githubusercontent.com/foksiny/discordscript/stable/scripts/install.ps1 | iex"
 ```
 
 **Via Cargo (all platforms):**
 ```bash
-cargo install --git https://github.com/foksiny/discordscript
+cargo install --git https://github.com/foksiny/discordscript --branch stable
 ```
 
 ### Create a bot
@@ -754,7 +754,7 @@ discordscript/
 ### Setup
 
 ```bash
-git clone https://github.com/foksiny/discordscript
+git clone -b stable https://github.com/foksiny/discordscript
 cd discordscript
 cargo build
 ```
