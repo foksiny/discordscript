@@ -1,0 +1,10 @@
+config { prefix "!" global_middleware ["logging"] }
+import "m" as util
+import "m2" use a, b
+middleware "logging" {
+    log info "test"
+}
+cmd info {
+    slash true
+    embed { title "x" }
+}

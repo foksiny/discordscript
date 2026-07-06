@@ -1,0 +1,17 @@
+cmd trycatch {
+    slash true
+    description "Teste de try/catch"
+    let x = 10
+    let y = 0
+    try {
+        if y == 0 {
+            throw "Divisão por zero não permitida!"
+        }
+        let result = x / y
+        reply "Resultado: {result}"
+    } catch err {
+        reply "Erro: {err}" ephemeral true
+    } finally {
+        log info "Operação de divisão finalizada"
+    }
+}

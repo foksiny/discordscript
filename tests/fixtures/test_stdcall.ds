@@ -1,0 +1,4 @@
+cmd test {
+    slash true
+    std.log("Comando {cmd} executado")
+}

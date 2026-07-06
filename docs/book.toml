@@ -1,0 +1,17 @@
+[book]
+title = "DiscordScript"
+authors = ["DiscordScript Team"]
+description = "A high-level scripting language for building Discord bots"
+
+[output.html]
+site-url = "/discordscript/"
+git-repository-url = "https://github.com/discordscript/discordscript"
+edit-url-template = "https://github.com/discordscript/discordscript/edit/main/docs/{path}"
+default-theme = "ayu"
+preferred-dark-theme = "ayu"
+no-section-label = true
+
+[output.html.search]
+limit-results = 20
+teaser-word-count = 30
+use-boolean-and = true

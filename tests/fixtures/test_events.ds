@@ -1,0 +1,15 @@
+cmd greet {
+    slash true
+    description "Cumprimenta um usuário"
+    param user {
+        type user
+        desc "Quem cumprimentar"
+    }
+    reply "Olá {user.mention}!"
+}
+on ready {
+    send "Bot online!" in channel "general"
+}
+on member_join {
+    send "Bem-vindo {user.mention}!" in channel "boas-vindas"
+}

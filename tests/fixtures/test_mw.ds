@@ -1,0 +1,3 @@
+middleware "logging" {
+    std.log("Comando executado")
+}

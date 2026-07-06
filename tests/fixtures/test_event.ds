@@ -1,0 +1,3 @@
+on ready {
+    send "Bot online!" in channel "general"
+}

@@ -1,0 +1,48 @@
+config {
+    prefix "!"
+    status "playing" "DiscordScript"
+    intents all
+}
+
+cmd ping {
+    slash true
+    prefix true
+    description "Responde com Pong!"
+
+    reply "Pong!"
+}
+
+cmd greet {
+    slash true
+    description "Cumprimenta um usuário"
+
+    param user {
+        type user
+        desc "Quem cumprimentar"
+    }
+
+    reply "Olá {user.mention}!"
+}
+
+cmd info {
+    slash true
+    description "Informações do bot"
+
+    embed {
+        title "Sobre o Bot"
+        desc "Feito com DiscordScript"
+        color "#5865F2"
+        field "Versão" "1.0.0" inline
+        field "Linguagem" "DiscordScript" inline
+    }
+
+    reply "Informações:" components
+}
+
+on ready {
+    send "Bot está online!" in channel "general"
+}
+
+on member_join {
+    send "Bem-vindo {user.mention}!" in channel "boas-vindas"
+}

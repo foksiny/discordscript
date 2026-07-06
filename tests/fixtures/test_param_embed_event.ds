@@ -1,0 +1,26 @@
+cmd greet {
+    slash true
+    description "Oi"
+    param user {
+        type user
+        desc "Quem cumprimentar"
+    }
+    reply "Oi"
+}
+
+cmd info {
+    slash true
+    description "Info"
+    embed {
+        title "Sobre"
+        desc "Feito com DiscordScript"
+        color "#5865F2"
+        field "Versão" "1.0.0" inline
+        field "Linguagem" "DiscordScript" inline
+    }
+    reply "Informações:" components
+}
+
+on ready {
+    send "Bot online!" in channel "general"
+}

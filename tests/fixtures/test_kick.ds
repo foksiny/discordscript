@@ -1,0 +1,16 @@
+cmd kick {
+    slash true
+    permission kick_members
+    description "Expulsa um usuário"
+
+    param user {
+        type user
+        desc "Usuário a ser expulso"
+    }
+
+    param reason {
+        type string
+        desc "Motivo da expulsão"
+        required false
+    }
+}

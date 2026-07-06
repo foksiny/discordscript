@@ -1,0 +1,12 @@
+cmd greet {
+    slash true
+    description "Oi"
+    param user {
+        type user
+        desc "Quem cumprimentar"
+    }
+    reply "Oi"
+}
+on ready {
+    send "Oi" in channel "general"
+}

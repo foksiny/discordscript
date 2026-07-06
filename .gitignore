@@ -1,0 +1,48 @@
+# Rust
+target/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Transpiler output
+build/*/
+
+# Python (transpiled output)
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+*.egg
+
+# Documentation build
+docs/book/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Temp / test artifacts
+temp/
+tmp/
+*.tmp

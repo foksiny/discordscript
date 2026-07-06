@@ -1,0 +1,5 @@
+cmd ping {
+    slash true
+    prefix true
+    reply "Pong!"
+}

@@ -1,0 +1,12 @@
+cmd select_menu {
+    slash true
+    description "Menu de seleção"
+    row {
+        select "Escolha uma cor" id "color_select" {
+            option "Vermelho" value "red"
+            option "Azul" value "blue"
+            option "Verde" value "green" description "Cor da natureza"
+        }
+    }
+    reply "Selecione uma cor no menu acima!" ephemeral true
+}

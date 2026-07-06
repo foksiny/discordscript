@@ -1,0 +1,14 @@
+config {
+    prefix "!"
+    threads 4
+    db "sqlite://data/bot.db"
+    log_level "info"
+    log_file "logs/bot.log"
+    error_channel "123456789"
+    error_ephemeral true
+    cache_ttl 300
+    global_middleware ["logging"]
+}
+
+import "modules/utility.ds" as util
+import "modules/admin.ds" use ban, kick

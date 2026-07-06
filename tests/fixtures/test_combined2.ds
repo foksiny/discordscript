@@ -1,0 +1,32 @@
+cmd ping {
+    slash true
+    prefix true
+    reply "Pong!"
+}
+
+cmd greet {
+    slash true
+    param user {
+        type user
+    }
+    reply "Oi"
+}
+
+cmd info {
+    slash true
+    embed {
+        title "Sobre"
+        desc "Teste"
+        color "#5865F2"
+        field "Versão" "1.0.0" inline
+    }
+    reply "Oi"
+}
+
+on ready {
+    send "Oi" in channel "general"
+}
+
+on member_join {
+    send "Oi" in channel "boas-vindas"
+}

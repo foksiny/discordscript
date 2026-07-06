@@ -1,0 +1,9 @@
+cmd modal {
+    slash true
+    description "Enviar feedback"
+    modal "Feedback" {
+        input "Nome" short required placeholder "Seu nome"
+        input "Mensagem" paragraph required placeholder "Sua mensagem"
+    }
+    reply "Feedback enviado com sucesso!" ephemeral true
+}

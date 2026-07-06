@@ -1,0 +1,4 @@
+cmd greet {
+    slash true
+    reply "Olá {user.mention}!"
+}

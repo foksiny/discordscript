@@ -1,0 +1,40 @@
+config {
+    prefix "!"
+    threads 4
+    db "sqlite://data/bot.db"
+    log_level "info"
+    log_file "logs/bot.log"
+    error_channel "123456789"
+    error_ephemeral true
+    cache_ttl 300
+    global_middleware ["logging"]
+}
+
+import "modules/utility.ds" as util
+import "modules/admin.ds" use ban, kick
+
+middleware "logging" {
+    log info "Comando {cmd} executado por {user.tag}"
+}
+
+middleware "check_admin" {
+    if !user.has_permission("administrator") {
+        reply "Sem permissão!" ephemeral true
+        cancel
+    }
+}
+
+cmd info {
+    slash true
+    description "Informações do bot"
+    embed {
+        title "Informações"
+        desc "Bot desenvolvido em DiscordScript"
+        color "#5865F2"
+        field "Versão" "1.0.0" inline true
+        field "Servidores" "10" inline true
+        field "Comandos" "15" inline true
+        footer "DiscordScript"
+        timestamp true
+    }
+}

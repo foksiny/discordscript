@@ -1,0 +1,7 @@
+cmd greet {
+    slash true
+    param user {
+        type user
+    }
+    reply "Oi"
+}

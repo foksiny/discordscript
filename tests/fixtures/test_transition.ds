@@ -1,0 +1,8 @@
+cmd info {
+    slash true
+    reply "Oi"
+}
+
+on ready {
+    send "Oi" in channel "general"
+}

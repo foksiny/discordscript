@@ -1,0 +1,88 @@
+config {
+    prefix "!"
+    middleware ["logging"]
+}
+
+middleware "logging" {
+    std.log("Comando {cmd} executado por {user.tag}")
+}
+
+middleware "check_admin" {
+    if !user.has_permission("administrator") {
+        reply "Sem permissão!" ephemeral true
+        cancel
+    }
+}
+
+cmd kick {
+    slash true
+    permission kick_members
+    description "Expulsa um usuário"
+
+    param user {
+        type user
+        desc "Usuário a ser expulso"
+    }
+
+    param reason {
+        type string
+        desc "Motivo da expulsão"
+        required false
+    }
+
+    discord.kick(user, reason)
+    reply "Usuário {user.tag} expulso! Motivo: {reason}"
+}
+
+cmd ban {
+    slash true
+    permission ban_members
+    description "Bane um usuário"
+
+    param user {
+        type user
+        desc "Usuário a ser banido"
+    }
+
+    discord.ban(user, "Banido por moderador")
+    reply "Usuário {user.tag} banido!"
+}
+
+cmd warn {
+    slash true
+    description "Adverte um usuário"
+
+    param user {
+        type user
+        desc "Usuário a ser advertido"
+    }
+
+    param reason {
+        type string
+        desc "Motivo da advertência"
+    }
+
+    json.set("warns.{user.id}.{std.now()}", reason)
+
+    let count = std.len(json.get("warns.{user.id}"))
+    if count >= 3 {
+        discord.kick(user, "3 advertências")
+        reply "Usuário {user.tag} expulso por 3 advertências!"
+    } else {
+        reply "Usuário {user.tag} advertido! Motivo: {reason} ({count}/3)"
+    }
+}
+
+cmd clear {
+    slash true
+    permission manage_messages
+    description "Limpa mensagens do chat"
+
+    param amount {
+        type int
+        desc "Quantidade de mensagens"
+    }
+
+    discord.clear_messages(amount)
+    reply "{amount} mensagens apagadas!" ephemeral true
+}

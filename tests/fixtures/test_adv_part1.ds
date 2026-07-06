@@ -1,0 +1,112 @@
+config {
+    prefix "!"
+    threads 4
+    db "sqlite://data/bot.db"
+    log_level "info"
+    log_file "logs/bot.log"
+    error_channel "123456789"
+    error_ephemeral true
+    cache_ttl 300
+    global_middleware ["logging"]
+}
+
+import "modules/utility.ds" as util
+import "modules/admin.ds" use ban, kick
+
+middleware "logging" {
+    log info "Comando {cmd} executado por {user.tag}"
+}
+
+middleware "check_admin" {
+    if !user.has_permission("administrator") {
+        reply "Sem permissão!" ephemeral true
+        cancel
+    }
+}
+
+cmd info {
+    slash true
+    description "Informações do bot"
+
+    embed {
+        title "Informações"
+        desc "Bot desenvolvido em DiscordScript"
+        color "#5865F2"
+        field "Versão" "1.0.0" inline true
+        field "Servidores" "10" inline true
+        field "Comandos" "15" inline true
+        footer "DiscordScript"
+        timestamp true
+    }
+}
+
+cmd buttons {
+    slash true
+    description "Teste de botões"
+
+    embed {
+        title "Escolha uma opção"
+        desc "Clique nos botões abaixo:"
+        color "#00FF00"
+    }
+
+    row {
+        button "Sim" style success id "btn_yes" emoji "✅"
+        button "Não" style danger id "btn_no" emoji "❌"
+        url "Site" "https://example.com"
+    }
+}
+
+cmd modal {
+    slash true
+    description "Enviar feedback"
+
+    modal "Feedback" {
+        input "Nome" short required placeholder "Seu nome"
+        input "Mensagem" paragraph required placeholder "Sua mensagem"
+    }
+
+    reply "Feedback enviado com sucesso!" ephemeral true
+}
+
+cmd select_menu {
+    slash true
+    description "Menu de seleção"
+
+    row {
+        select "Escolha uma cor" id "color_select" {
+            option "Vermelho" value "red"
+            option "Azul" value "blue"
+            option "Verde" value "green" description "Cor da natureza"
+        }
+    }
+
+    reply "Selecione uma cor no menu acima!" ephemeral true
+}
+
+cmd trycatch {
+    slash true
+    description "Teste de try/catch"
+
+    let x = 10
+    let y = 0
+
+    try {
+        if y == 0 {
+            throw "Divisão por zero não permitida!"
+        }
+        let result = x / y
+        reply "Resultado: {result}"
+    } catch err {
+        reply "Erro: {err}" ephemeral true
+    } finally {
+        log info "Operação de divisão finalizada"
+    }
+}
+
+cmd thread_demo {
+    slash true
+    description "Teste de threads"
+
+    let results = []
+

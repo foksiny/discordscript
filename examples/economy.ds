@@ -1,0 +1,54 @@
+config {
+    prefix "!"
+    threads 4
+    db "sqlite://data/economy.db"
+}
+
+cmd balance {
+    slash true
+    description "Verifica seu saldo"
+
+    let rows = db.query("SELECT balance FROM users WHERE id = ?", user.id)
+    let balance = 0
+
+    if std.len(rows) > 0 {
+        set balance = rows[0].balance
+    } else {
+        db.query("INSERT INTO users (id, balance) VALUES (?, ?)", user.id, 100)
+        set balance = 100
+    }
+
+    reply "Seu saldo é: {balance} moedas!"
+}
+
+cmd daily {
+    slash true
+    cooldown 24h per user
+    description "Recompensa diária"
+
+    let reward = std.random(10, 50)
+    db.query("UPDATE users SET balance = balance + ? WHERE id = ?", reward, user.id)
+
+    reply "Você recebeu {reward} moedas diárias!"
+}
+
+cmd leaderboard {
+    slash true
+    description "Ranking dos mais ricos"
+
+    let top = db.query("SELECT id, balance FROM users ORDER BY balance DESC LIMIT 10")
+
+    embed {
+        title "Leaderboard"
+        desc "Top 10 usuários mais ricos"
+        color "#FFD700"
+    }
+
+    paginate(top, 5) {
+        embed {
+            title "Leaderboard — Página {page}"
+        }
+        buttons ["⬅️", "➡️"]
+        timeout 60
+    }
+}

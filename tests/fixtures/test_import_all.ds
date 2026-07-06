@@ -1,0 +1,4 @@
+config { prefix "!" }
+import "mod" as util
+import "mod2" use a, b, c
+cmd test { slash true reply "oi" }

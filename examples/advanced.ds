@@ -1,0 +1,274 @@
+config {
+prefix "!"
+threads 4
+db "sqlite://data/bot.db"
+log_level "info"
+log_file "logs/bot.log"
+error_channel "123456789"
+error_ephemeral true
+cache_ttl 300
+global_middleware["logging"]
+
+}
+import "modules/utility.ds" as util
+import "modules/admin.ds" use ban, kick
+middleware "logging" {
+log info "Comando cmd executado por user.tag"
+
+}
+middleware "check_admin" {
+if! user. has_permission("administrator") {
+reply "Sem permissão!" ephemeral true
+cancel
+
+    }
+}
+cmd info {
+slash true
+description "Informações do bot"
+embed {
+title "Informações"
+desc "Bot desenvolvido em DiscordScript"
+color "#5865F2"
+field "Versão" "1.0.0" inline true
+field "Servidores" "10" inline true
+field "Comandos" "15" inline true
+footer "DiscordScript"
+timestamp true
+
+    }
+}
+cmd buttons {
+slash true
+description "Teste de botões"
+embed {
+title "Escolha uma opção"
+desc "Clique nos botões abaixo:"
+color "#00FF00"
+
+    }
+row {
+button "Sim" style success id "btn_yes" emoji "✅"
+button "Não" style danger id "btn_no" emoji "❌"
+url "Site" "https://example.com"
+
+    }
+}
+cmd modal {
+slash true
+description "Enviar feedback"
+modal "Feedback" {
+input "Nome" short required placeholder "Seu nome"
+input "Mensagem" paragraph required placeholder "Sua mensagem"
+
+    }
+reply "Feedback enviado com sucesso!" ephemeral true
+
+}
+cmd select_menu {
+slash true
+description "Menu de seleção"
+row {
+select "Escolha uma cor" id "color_select" {
+option "Vermelho" value "red"
+option "Azul" value "blue"
+option "Verde" value "green" description "Cor da natureza"
+
+        }
+    }
+reply "Selecione uma cor no menu acima!" ephemeral true
+
+}
+cmd trycatch {
+slash true
+description "Teste de try/catch"
+let x = 10
+let y = 0
+try {
+if y == 0 {
+throw "Divisão por zero não permitida!"
+
+        }
+let result = x / y
+reply "Resultado: result"
+
+    } catch err {
+reply "Erro: err" ephemeral true
+
+    } finally {
+log info "Operação de divisão finalizada"
+
+    }
+}
+cmd thread_demo {
+slash true
+description "Teste de threads"
+let results = []
+parallel[ {
+thread {
+loginfo"Thread 1 executando"
+std. sleep(1)
+std. push(results, "thread1")
+
+        }
+    },  {
+thread {
+loginfo"Thread 2 executando"
+std. sleep(2)
+std. push(results, "thread2")
+
+        }
+    }]
+reply "Threads finalizadas! Resultados: results"
+
+}
+cmd paginate_demo {
+slash true
+description "Paginação de itens"
+let items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+paginate(items, 5) {
+embed {
+title "Itens — Página page"
+desc "Lista de itens numerados"
+color "#FFD700"
+
+        }
+buttons["⬅️", "➡️"]
+timeout 60
+
+    }
+}
+cmd for_loop {
+slash true
+description "Exemplo de loop for"
+let users = ["Alice", "Bob", "Carlos"]
+let result = ""
+for user in users {
+set result = "resultuser, "
+
+    }
+reply "Usuários: result"
+
+}
+cmd context_menu_demo {
+slash true
+description "Exemplo completo"
+let data = json. get("user_data")
+let count = std. len(data)
+if count == 0 {
+let data = json. set("users", ["novo_usuario"])
+reply "Primeiro usuário cadastrado!"
+
+    } else {
+reply "Total de usuários: count"
+
+    }
+let balance = db. query("SELECT balance FROM users WHERE id = ?", user. id)
+let bal = 0
+if std. len(balance) > 0 {
+set bal = balance[0]. balance
+
+    }
+reply "Seu saldo é: bal moedas!"
+
+}
+type GuildConfig {
+prefix string default "!"
+log_channel string optional
+welcome_message string optional
+auto_role string optional
+
+}
+cmd config_server {
+slash true
+permission manage_guild
+description "Configurar servidor"
+guild_only
+let cfg = mock GuildConfig {
+prefix ctx. guild_id
+log_channel "logs"
+
+    }
+assert std. len(cfg. prefix) > 0, "Prefixo não pode ser vazio"
+reply "Configuração salva!"
+
+}
+menu user "Informações do Usuário" {
+let info = "ID: target.id
+Nome: target.name"
+reply info ephemeral true
+
+}
+schedule "daily_cleanup" {
+cron "0 0 * * *"
+timezone "America/Sao_Paulo"
+log info "Executando limpeza diária"
+db. query("DELETE FROM temp_data WHERE expires < datetime('now')")
+
+}
+schedule "status_update" {
+every 30 "s"
+let users_online = std. random(10, 100)
+log info "Usuários online: users_online"
+
+}
+on member_join {
+let welcome = db. query("SELECT welcome_message FROM guild_config WHERE guild_id = ?", guild. id)
+if std. len(welcome) > 0 {
+let msg = welcome[0]. welcome_message
+reply msg
+
+    }
+let role = "Novato"
+discord. add_role(member, role)
+
+}
+test "test_math_basics" {
+assert 1 + 1 == 2, "1+1 deve ser 2"
+assert 10 > 5, "10 deve ser maior que 5"
+assert std. len("hello") == 5, "len deve ser 5"
+
+}
+test "test_list_operations" {
+let list = [3, 1, 2]
+assert std. min(list) == 1, "min deve ser 1"
+assert std. max(list) == 3, "max deve ser 3"
+assert std. includes(list, 2), "deve incluir 2"
+
+}
+on ticket_create {
+discord. create_thread("ticket-user.name",  {
+"reason": "Suporte solicitado"
+
+    })
+
+}
+cmd webhook_test {
+slash true
+description "Enviar webhook"
+webhook. send "https://discord.com/api/webhooks/123/abc" {
+content "Mensagem automática"
+
+    }
+}
+cmd cache_demo {
+slash true
+description "Teste de cache"
+cache. set "user_data_user.id" "cached_value" 3600
+let cached = cache. get "user_data_user.id"
+reply "Cache: cached"
+
+}
+cmd http_demo {
+slash true
+description "Requisição HTTP"
+http. get "https://api.example.com/data" {
+headers {
+"Authorization" "Bearer token123"
+"Content-Type" "application/json"
+
+        }
+    }
+reply "Requisição concluída!"
+
+}

@@ -1,0 +1,29 @@
+cmd info {
+    slash true
+    description "Informações do bot"
+    embed {
+        title "Informações"
+        desc "Bot desenvolvido em DiscordScript"
+        color "#5865F2"
+        field "Versão" "1.0.0" inline true
+        field "Servidores" "10" inline true
+        field "Comandos" "15" inline true
+        footer "DiscordScript"
+        timestamp true
+    }
+}
+
+cmd buttons {
+    slash true
+    description "Teste de botões"
+    embed {
+        title "Escolha uma opção"
+        desc "Clique nos botões abaixo:"
+        color "#00FF00"
+    }
+    row {
+        button "Sim" style success id "btn_yes" emoji "✅"
+        button "Não" style danger id "btn_no" emoji "❌"
+        url "Site" "https://example.com"
+    }
+}

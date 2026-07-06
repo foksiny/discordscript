@@ -1,0 +1,6 @@
+on member_join {
+    send "Oi" in channel "boas-vindas"
+}
+on member_leave {
+    send "Tchau" in channel "boas-vindas"
+}

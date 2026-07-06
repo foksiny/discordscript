@@ -1,0 +1,11 @@
+cmd info {
+    slash true
+    description "Informações do bot"
+    embed {
+        title "Sobre"
+        desc "Feito com DiscordScript"
+        color "#5865F2"
+        field "Versão" "1.0.0" inline
+    }
+    reply "Informações:" components
+}
